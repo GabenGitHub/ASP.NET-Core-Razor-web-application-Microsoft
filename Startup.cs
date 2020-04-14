@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using WebAppPractice.Model;
+using Microsoft.Extensions.Logging;
 
 namespace WebAppPractice
 {
@@ -26,7 +27,12 @@ namespace WebAppPractice
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("DbName"));
-            // services.AddMvc();
+            services.AddLogging(loggingBuilder =>
+                {
+                    loggingBuilder.AddConfiguration(Configuration.GetSection("Logging"));
+                    loggingBuilder.AddConsole();
+                    loggingBuilder.AddDebug();
+                });;
             services.AddRazorPages();
         }
 
